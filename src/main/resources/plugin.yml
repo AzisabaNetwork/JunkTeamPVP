@@ -1,0 +1,5 @@
+name: JunkAnniPVP
+version: '${project.version}'
+main: com.github.sirokuri_.JunkAnnipvp.JunkAnniPVP
+api-version: 1.17
+authors: [ sirokuri_ ]
