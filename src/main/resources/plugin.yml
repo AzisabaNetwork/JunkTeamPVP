@@ -1,5 +1,5 @@
-name: JunkAnniPVP
+name: JunkTeamPVP
 version: '${project.version}'
-main: com.github.sirokuri_.JunkAnnipvp.JunkAnniPVP
+main: com.github.sirokuri_.JunkTeamPVP.JunkTeamPVP
 api-version: 1.17
 authors: [ sirokuri_ ]

@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.sirokuri_</groupId>
-    <artifactId>JunkAnniPVP</artifactId>
+    <artifactId>JunkTeamPVP</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>JunkAnniPVP</name>
+    <name>JunkTeamPVP</name>
 
     <properties>
         <java.version>1.8</java.version>
