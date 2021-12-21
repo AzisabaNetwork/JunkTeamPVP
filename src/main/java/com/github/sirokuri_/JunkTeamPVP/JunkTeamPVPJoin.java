@@ -1,4 +1,4 @@
-package com.github.sirokuri_.JunkTeamPVP;
+package com.github.sirokuri_.JunkTeamPVP.JunkTeamPVPJoin;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
