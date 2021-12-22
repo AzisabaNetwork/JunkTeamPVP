@@ -19,6 +19,7 @@ public final class JunkTeamPVP extends JavaPlugin implements Listener {
         // Plugin startup logic
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
         Bukkit.getPluginManager().registerEvents(new JunkTeamPVPJoin(this), this);
+        Bukkit.getPluginManager().registerEvents(new JunkTeamPVPGuard(this), this);
     }
 
     @Override
