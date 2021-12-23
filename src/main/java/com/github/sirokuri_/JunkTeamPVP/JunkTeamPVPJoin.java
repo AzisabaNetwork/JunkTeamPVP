@@ -27,7 +27,6 @@ public class JunkTeamPVPJoin implements Listener {
             String secondSignLine = sign.getLine(1);
             if(firstSignLine.equals("[JunkTeamPVP]") && secondSignLine.equals("試合に参加する")){
                 if (!plugin.onlinePlayers.contains(player)) {
-                    player.sendMessage(ChatColor.GREEN + "ゲームスタートロビーに移動しました");
                     plugin.onlinePlayers.add(player);
                     if (plugin.onlinePlayers.size() % 2 == 0) {
                         plugin.redTeam.add(player);
