@@ -45,6 +45,9 @@ public class JunkTeamPVPJoin implements Listener {
                 } else {
                     return;
                 }
+                if(plugin.redTeam.size() + plugin.blueTeam.size() >= 2){
+                    plugin.getServer().broadcastMessage("両チームのプレイヤーが2を超えたので試合を開始します");
+                }
             }
         }/*else{
             player.sendMessage("" + plugin.blueTeam.contains(player) + "\n" + plugin.redTeam.contains(player) + "\n" + plugin.onlinePlayers.contains(player));
