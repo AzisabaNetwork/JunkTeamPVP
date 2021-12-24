@@ -22,6 +22,7 @@ public class JunkTeamPVPJoin implements Listener {
     public void onInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         Block block = e.getClickedBlock();
+        int matchPlayers = 10;
         if(block == null) return;
         if ((e.getHand() != EquipmentSlot.HAND || e.getAction() == Action.LEFT_CLICK_BLOCK)) return;
         if(block.getType() == Material.OAK_WALL_SIGN){
@@ -45,8 +46,8 @@ public class JunkTeamPVPJoin implements Listener {
                 } else {
                     return;
                 }
-                if(plugin.redTeam.size() + plugin.blueTeam.size() >= 2){
-                    plugin.getServer().broadcastMessage("両チームのプレイヤーが2を超えたので試合を開始します");
+                if(plugin.redTeam.size() + plugin.blueTeam.size() >= matchPlayers){
+                    plugin.getServer().broadcastMessage("両チームのプレイヤーが" + matchPlayers + "を超えたので試合を開始します");
                 }
             }
         }/*else{
