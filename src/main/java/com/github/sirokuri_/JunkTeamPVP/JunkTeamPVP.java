@@ -1,25 +1,26 @@
 package com.github.sirokuri_.JunkTeamPVP;
 
+import com.github.sirokuri_.JunkTeamPVP.listener.JunkTeamPVPGuard;
+import com.github.sirokuri_.JunkTeamPVP.listener.JunkTeamPVPJoin;
+import com.github.sirokuri_.JunkTeamPVP.listener.JunkTeamPVPStartTimer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class JunkTeamPVP extends JavaPlugin implements Listener {
+public class JunkTeamPVP extends JavaPlugin {
 
-    List<Player> onlinePlayers = new ArrayList<Player>();
-    List<Player> redTeam = new ArrayList<Player>();
-    List<Player> blueTeam = new ArrayList<Player>();
+    public List<Player> onlinePlayers = new ArrayList<Player>();
+    public List<Player> redTeam = new ArrayList<Player>();
+    public List<Player> blueTeam = new ArrayList<Player>();
     public BukkitRunnable task = null;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
-        Bukkit.getServer().getPluginManager().registerEvents(this, this);
         Bukkit.getPluginManager().registerEvents(new JunkTeamPVPJoin(this), this);
         Bukkit.getPluginManager().registerEvents(new JunkTeamPVPGuard(this), this);
         Bukkit.getPluginManager().registerEvents(new JunkTeamPVPStartTimer(this), this);
