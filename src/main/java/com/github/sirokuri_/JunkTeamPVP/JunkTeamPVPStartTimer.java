@@ -50,7 +50,6 @@ public class JunkTeamPVPStartTimer implements Listener {
                                 plugin.redTeam.clear();
                                 plugin.blueTeam.clear();
                                 plugin.onlinePlayers.clear();
-                                countdownStarter = 20;
                             }
                         }
                     };
