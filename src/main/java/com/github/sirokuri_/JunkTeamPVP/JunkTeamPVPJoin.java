@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 public class JunkTeamPVPJoin implements Listener {
+
     private final JunkTeamPVP plugin;
 
     public JunkTeamPVPJoin(JunkTeamPVP junkTeamPVP){
@@ -22,35 +23,28 @@ public class JunkTeamPVPJoin implements Listener {
     public void onInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         Block block = e.getClickedBlock();
-        int matchPlayers = 10;
-        if(block == null) return;
+        if (block == null) return;
         if ((e.getHand() != EquipmentSlot.HAND || e.getAction() == Action.LEFT_CLICK_BLOCK)) return;
-        if(block.getType() == Material.OAK_WALL_SIGN){
-            Sign sign = (Sign) block.getState();
-            String firstSignLine = sign.getLine(0);
-            String secondSignLine = sign.getLine(1);
-            if(firstSignLine.equals("[JunkTeamPVP]") && secondSignLine.equals("試合に参加する")){
-                if (!plugin.onlinePlayers.contains(player)) {
-                    plugin.onlinePlayers.add(player);
-                    if (plugin.onlinePlayers.size() % 2 == 0) {
-                        plugin.redTeam.add(player);
-                        player.sendMessage(ChatColor.RED + "赤チームに参加しました");
-                    } else {
-                        plugin.blueTeam.add(player);
-                        player.sendMessage(ChatColor.BLUE + "青チームに参加しました");
-                    }
-                } else if(plugin.redTeam.contains(player)){
-                    player.sendMessage(ChatColor.RED + "既にあなたは赤チームへ参加しています！");
-                } else if(plugin.blueTeam.contains(player)){
-                    player.sendMessage(ChatColor.BLUE + "既にあなたは青チームへ参加しています！");
-                } else {
-                    return;
-                }
-                if(plugin.redTeam.size() + plugin.blueTeam.size() >= matchPlayers){
-                    plugin.getServer().broadcastMessage("両チームのプレイヤーが" + matchPlayers + "を超えたので試合を開始します");
-                }
+        if (!(block.getType() == Material.OAK_WALL_SIGN)) return;
+        Sign sign = (Sign) block.getState();
+        String firstSignLine = sign.getLine(0);
+        String secondSignLine = sign.getLine(1);
+        if (!(firstSignLine.equals("[JunkTeamPVP]") && secondSignLine.equals("試合に参加する"))) return;
+        if (!plugin.onlinePlayers.contains(player)) {
+            plugin.onlinePlayers.add(player);
+            if (plugin.onlinePlayers.size() % 2 == 0) {
+                plugin.redTeam.add(player);
+                player.sendMessage(ChatColor.RED + "赤チームに参加しました");
+            } else {
+                plugin.blueTeam.add(player);
+                player.sendMessage(ChatColor.BLUE + "青チームに参加しました");
             }
-        }/*else{
+        } else if(plugin.redTeam.contains(player) || plugin.blueTeam.contains(player)){
+            player.sendMessage(ChatColor.RED + "既にあなたはチームへ参加しています！");
+        } else {
+            return;
+        }
+        /*else{
             player.sendMessage("" + plugin.blueTeam.contains(player) + "\n" + plugin.redTeam.contains(player) + "\n" + plugin.onlinePlayers.contains(player));
         }*/
     }
