@@ -19,7 +19,7 @@ public class JunkTeamPVPGuard implements Listener {
         Entity damager = event.getDamager();
         if (!(damager instanceof Player)) return;
         if (!(entity instanceof Player)) return;
-        if(plugin.blueTeam.contains(damager) && plugin.blueTeam.contains(entity)) event.setCancelled(true);
-        if(plugin.redTeam.contains(damager) && plugin.redTeam.contains(entity)) event.setCancelled(true);
+        if (plugin.blueTeam.contains(damager) && plugin.blueTeam.contains(entity)) event.setCancelled(true);
+        if (plugin.redTeam.contains(damager) && plugin.redTeam.contains(entity)) event.setCancelled(true);
     }
 }
