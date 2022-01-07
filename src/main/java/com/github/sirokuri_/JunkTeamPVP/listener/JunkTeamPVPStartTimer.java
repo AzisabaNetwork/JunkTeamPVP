@@ -1,8 +1,7 @@
 package com.github.sirokuri_.JunkTeamPVP.listener;
 
 import com.github.sirokuri_.JunkTeamPVP.JunkTeamPVP;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -26,7 +25,7 @@ public class JunkTeamPVPStartTimer implements Listener {
     public void startTimer() {
         plugin.task = new BukkitRunnable() {
             int countdownStarter = 20;
-            BossBar bossBar = Bukkit.createBossBar(ChatColor.DARK_PURPLE + "試合終了まで" + countdownStarter + " 秒", BarColor.PURPLE, BarStyle.SOLID);
+            BossBar bossBar = Bukkit.createBossBar(ChatColor.DARK_PURPLE + "チーム対抗PVP : マッチ終了まで" + countdownStarter + " 秒", BarColor.PURPLE, BarStyle.SOLID);
             int matchPlayers = 1;
             @Override
             public void run() {
@@ -41,7 +40,7 @@ public class JunkTeamPVPStartTimer implements Listener {
                                 for (Player players : Bukkit.getServer().getOnlinePlayers()) {
                                     bossBar.addPlayer(players);
                                 }
-                                bossBar.setTitle(ChatColor.DARK_PURPLE + "試合終了まで" + countdownStarter  + " 秒");
+                                bossBar.setTitle(ChatColor.DARK_PURPLE + "チーム対抗PVP : マッチ終了まで" + countdownStarter  + " 秒");
                             } else if (countdownStarter == 0) {
                                 plugin.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "試合時間が0になったので試合を終了します!");
                                 for (Player players : Bukkit.getServer().getOnlinePlayers()) {
@@ -51,6 +50,11 @@ public class JunkTeamPVPStartTimer implements Listener {
                                 plugin.redTeam.clear();
                                 plugin.blueTeam.clear();
                                 plugin.onlinePlayers.clear();
+                            }
+                            if(countdownStarter <= 5){
+                                for (Player players : Bukkit.getServer().getOnlinePlayers()) {
+                                    players.getWorld().playSound(players.getLocation(),Sound.BLOCK_NOTE_BLOCK_HAT,1, 1);
+                                }
                             }
                         }
                     };
