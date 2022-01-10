@@ -25,7 +25,7 @@ public class JunkTeamPVPStartTimer implements Listener {
     public void startTimer() {
         plugin.task = new BukkitRunnable() {
             int countdownStarter = 20;
-            BossBar bossBar = Bukkit.createBossBar(ChatColor.DARK_PURPLE + "試合終了まで" + countdownStarter + " 秒", BarColor.PURPLE, BarStyle.SOLID);
+            BossBar bossBar = Bukkit.createBossBar(ChatColor.DARK_PURPLE + "チーム対抗PVP : マッチ終了まで" + countdownStarter + " 秒", BarColor.PURPLE, BarStyle.SOLID);
             int matchPlayers = 1;
             @Override
             public void run() {
@@ -38,7 +38,7 @@ public class JunkTeamPVPStartTimer implements Listener {
                             for (Player players : Bukkit.getServer().getOnlinePlayers()) {
                                 bossBar.addPlayer(players);
                             }
-                            bossBar.setTitle(ChatColor.DARK_PURPLE + "試合終了まで" + countdownStarter  + " 秒");
+                            bossBar.setTitle(ChatColor.DARK_PURPLE + "チーム対抗PVP : マッチ終了まで" + countdownStarter  + " 秒");
                         } else if (countdownStarter == 0) {
                             plugin.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "試合時間が0になったので試合を終了します!");
                             scheduler.shutdown();
