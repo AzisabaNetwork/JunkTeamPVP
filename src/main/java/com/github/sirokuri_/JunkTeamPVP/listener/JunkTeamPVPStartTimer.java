@@ -51,11 +51,6 @@ public class JunkTeamPVPStartTimer implements Listener {
                                 plugin.blueTeam.clear();
                                 plugin.onlinePlayers.clear();
                             }
-                            if(countdownStarter <= 5){
-                                for (Player players : Bukkit.getServer().getOnlinePlayers()) {
-                                    players.getWorld().playSound(players.getLocation(),Sound.BLOCK_NOTE_BLOCK_HAT,1, 1);
-                                }
-                            }
                         }
                     };
                     scheduler.scheduleAtFixedRate(runnable, 0, 1, TimeUnit.SECONDS);
