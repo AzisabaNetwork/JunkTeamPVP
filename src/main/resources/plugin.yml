@@ -2,4 +2,16 @@ name: JunkTeamPVP
 version: '${project.version}'
 main: com.github.sirokuri_.JunkTeamPVP.JunkTeamPVP
 api-version: 1.17
-authors: [ sirokuri_ ]
+authors: [46kuri_]
+description: JG plugin
+
+commands:
+  jtPVP:
+    description: スコアボードテスト用コマンド
+    permission: JunkgameCommand.permission.Member
+
+permissions:
+  JunkTeamPVPCommand.permission.Admin:
+    default: op
+  JunkTeamPVPCommand.permission.Member:
+    default: true
