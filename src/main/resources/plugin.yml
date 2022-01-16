@@ -7,7 +7,7 @@ description: JG plugin
 
 commands:
   jtPVP:
-    description: スコアボードテスト用コマンド
+    description: テスト用コマンド
     permission: JunkgameCommand.permission.Member
 
 permissions:
