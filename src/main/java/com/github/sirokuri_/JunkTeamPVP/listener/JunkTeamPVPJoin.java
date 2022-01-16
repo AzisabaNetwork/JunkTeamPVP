@@ -32,7 +32,7 @@ public class JunkTeamPVPJoin implements Listener {
         if (!world.getName().equals("jgTutorial")) return;
         //ブロックがなければ処理を行わずreturnする
         if (block == null) return;
-        //クリックした際にメインハンド以外とブロックを左クリックした時以外は処理を行わずreturnする
+        //クリックした際にメインハンド以外とブロックを左クリックした時は処理を行わずreturnする
         if ((event.getHand() != EquipmentSlot.HAND || event.getAction() == Action.LEFT_CLICK_BLOCK)) return;
         //クリックしたブロックが壁付きオーク看板以外は処理を行わずreturnする
         if (!(block.getType() == Material.OAK_WALL_SIGN)) return;
