@@ -42,7 +42,7 @@ public class JunkTeamPVPStartTimer implements Listener {
         int matchPlayers = 1;
         //試合にエントリーしたプレイヤーが赤チームか青チームに入っていて試合開始人数と同じになったら試合を開始する
         if (plugin.redTeam.size() + plugin.blueTeam.size() == matchPlayers) {
-            plugin.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "エントリーが" + matchPlayers + "以上の為ゲームを開始します");
+            plugin.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] エントリーが" + matchPlayers + "以上の為ゲームを開始します");
             //スケジューラーを変数化する
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
             //スケジューラーを開始する
@@ -58,7 +58,7 @@ public class JunkTeamPVPStartTimer implements Listener {
                     bossBar.setTitle(ChatColor.DARK_PURPLE + "チーム対抗PVP : マッチ終了まで" + countdownStarter  + " 秒");
                     //試合のカウントダウンが0秒の時処理を実行
                 } else if (countdownStarter.get() == 0) {
-                    plugin.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "試合時間が0になったので試合を終了します!");
+                    plugin.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] 試合時間が0になったので試合を終了します!");
                     //スケジューラーを閉じる
                     scheduler.shutdown();
                     //ボスバー削除
