@@ -30,6 +30,7 @@ public class JunkTeamPVPBlockBreak implements Listener {
         Player player = event.getPlayer();
         //壊されたブロックを取得
         Block block = event.getBlock();
+        //取得したワールドがjgTutorial以外は処理を行わずreturnする
         World world = player.getWorld();
         if (!world.getName().equals("jgTutorial")) return;
         //壊されたブロックがダイヤモンド原石なら実行

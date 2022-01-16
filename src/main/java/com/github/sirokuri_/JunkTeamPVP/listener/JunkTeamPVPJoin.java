@@ -28,6 +28,7 @@ public class JunkTeamPVPJoin implements Listener {
         Player player = event.getPlayer();
         //クリックしたブロックを取得
         Block block = event.getClickedBlock();
+        //取得したワールドがjgTutorial以外は処理を行わずreturnする
         World world = player.getWorld();
         if (!world.getName().equals("jgTutorial")) return;
         //ブロックがなければ処理を行わずreturnする

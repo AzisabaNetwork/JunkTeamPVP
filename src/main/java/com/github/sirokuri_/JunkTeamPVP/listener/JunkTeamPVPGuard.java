@@ -24,6 +24,7 @@ public class JunkTeamPVPGuard implements Listener {
         //ダメージを与えたエンティティやダメージを受けたエンティティがプレイヤー以外なら処理を行わなずreturnする
         if (!(damage instanceof Player)) return;
         if (!(entity instanceof Player)) return;
+        //取得したワールドがjgTutorial以外は処理を行わずreturnする
         World world1 = entity.getWorld();
         World world2 = damage.getWorld();
         if (!world1.getName().equals("jgTutorial") && !world2.getName().equals("jgTutorial")) return;
