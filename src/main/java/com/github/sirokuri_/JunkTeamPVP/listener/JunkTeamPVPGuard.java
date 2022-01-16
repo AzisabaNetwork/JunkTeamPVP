@@ -1,6 +1,7 @@
 package com.github.sirokuri_.JunkTeamPVP.listener;
 
 import com.github.sirokuri_.JunkTeamPVP.JunkTeamPVP;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,6 +24,9 @@ public class JunkTeamPVPGuard implements Listener {
         //ダメージを与えたエンティティやダメージを受けたエンティティがプレイヤー以外なら処理を行わなずreturnする
         if (!(damage instanceof Player)) return;
         if (!(entity instanceof Player)) return;
+        World world1 = entity.getWorld();
+        World world2 = damage.getWorld();
+        if (!world1.getName().equals("jgTutorial") && !world2.getName().equals("jgTutorial")) return;
         //ダメージを与えたプレイヤーやダメージを受けたプレイヤーが青チームや赤チーム出なければダメージを無効化する
         if (plugin.blueTeam.contains(damage) && plugin.blueTeam.contains(entity)) event.setCancelled(true);
         if (plugin.redTeam.contains(damage) && plugin.redTeam.contains(entity)) event.setCancelled(true);

@@ -3,6 +3,7 @@ package com.github.sirokuri_.JunkTeamPVP.listener;
 import com.github.sirokuri_.JunkTeamPVP.JunkTeamPVP;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -27,6 +28,8 @@ public class JunkTeamPVPJoin implements Listener {
         Player player = event.getPlayer();
         //クリックしたブロックを取得
         Block block = event.getClickedBlock();
+        World world = player.getWorld();
+        if (!world.getName().equals("jgTutorial")) return;
         //ブロックがなければ処理を行わずreturnする
         if (block == null) return;
         //クリックした際にメインハンド以外とブロックを左クリックした時以外は処理を行わずreturnする

@@ -3,6 +3,7 @@ package com.github.sirokuri_.JunkTeamPVP.listener;
 import com.github.sirokuri_.JunkTeamPVP.JunkTeamPVP;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,6 +30,8 @@ public class JunkTeamPVPBlockBreak implements Listener {
         Player player = event.getPlayer();
         //壊されたブロックを取得
         Block block = event.getBlock();
+        World world = player.getWorld();
+        if (!world.getName().equals("jgTutorial")) return;
         //壊されたブロックがダイヤモンド原石なら実行
         if(block.getType() == Material.EMERALD_ORE) {
             event.setCancelled(true);

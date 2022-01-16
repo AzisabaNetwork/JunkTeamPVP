@@ -56,7 +56,7 @@ public class JunkTeamPVPStartTimer implements Listener {
                     }
                     //カウントダウンをボスバーに反映する
                     bossBar.setTitle(ChatColor.DARK_PURPLE + "チーム対抗PVP : マッチ終了まで" + countdownStarter  + " 秒");
-                //試合のカウントダウンが0秒の時処理を実行
+                    //試合のカウントダウンが0秒の時処理を実行
                 } else if (countdownStarter.get() == 0) {
                     plugin.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "試合時間が0になったので試合を終了します!");
                     //スケジューラーを閉じる
