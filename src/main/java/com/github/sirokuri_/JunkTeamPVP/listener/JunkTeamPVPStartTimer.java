@@ -63,7 +63,7 @@ public class JunkTeamPVPStartTimer implements Listener {
                     scheduler.shutdown();
                     //ボスバー削除
                     bossBar.removeAll();
-                    //プラグイン起動時に作ったリストを削除
+                    //プラグイン起動時に作ったリストの中身を削除
                     plugin.onlinePlayers.clear();
                     plugin.redTeam.clear();
                     plugin.blueTeam.clear();
