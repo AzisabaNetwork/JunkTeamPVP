@@ -28,8 +28,6 @@ public class JunkTeamPVPGuard implements Listener {
         World world1 = entity.getWorld();
         World world2 = damage.getWorld();
         if (!world1.getName().equals("jgTutorial") && !world2.getName().equals("jgTutorial")) return;
-        //ダメージを与えたプレイヤーやダメージを受けたプレイヤーが青チームや赤チーム出なければダメージを無効化する
-        if (plugin.blueTeam.contains(damage) && plugin.blueTeam.contains(entity)) event.setCancelled(true);
-        if (plugin.redTeam.contains(damage) && plugin.redTeam.contains(entity)) event.setCancelled(true);
+        if (!(plugin.blueTeam.contains(entity) && plugin.redTeam.contains(damage)) && !(plugin.redTeam.contains(entity) && plugin.blueTeam.contains(damage))) event.setCancelled(true);
     }
 }
