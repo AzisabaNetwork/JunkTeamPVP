@@ -128,7 +128,13 @@ public class JunkTeamPVPJoin implements Listener {
                     bossBar.setTitle(ChatColor.DARK_PURPLE + "チーム対抗PVP : マッチ終了まで" + countdownStarter  + " 秒");
                     //試合のカウントダウンが0秒の時処理を実行
                 } else if (countdownStarter.get() == 0) {
-                    plugin.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] 試合時間が0になったので試合を終了します!");
+                    for (Player players : Bukkit.getServer().getOnlinePlayers()) {
+                        //ボスバーにプレイヤーを追加する
+                        World world = players.getWorld();
+                        if (world.getName().equals("jgTutorial")){
+                            players.sendMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] 試合時間が0になったので試合を終了します!");
+                        }
+                    }
                     //スケジューラーを閉じる
                     scheduler.shutdown();
                     //ボスバー削除
