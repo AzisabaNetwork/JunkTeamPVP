@@ -4,6 +4,7 @@ import com.github.sirokuri_.JunkTeamPVP.Command.JunkTeamPVPCommand;
 import com.github.sirokuri_.JunkTeamPVP.listener.*;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -19,8 +20,8 @@ public class JunkTeamPVP extends JavaPlugin {
     public List<Player> onlinePlayers = new ArrayList<Player>();
     public List<Player> redTeam = new ArrayList<Player>();
     public List<Player> blueTeam = new ArrayList<Player>();
-    public int blueTeamDeathCount = 0;
-    public int redTeamDeathCount = 0;
+    public int blueTeamCount = 0;
+    public int redTeamCount = 0;
 
     @Override
     public void onEnable() {
@@ -29,6 +30,7 @@ public class JunkTeamPVP extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new JunkTeamPVPGuard(this), this);
         getServer().getPluginManager().registerEvents(new JunkTeamPVPDeathCount(this), this);
         getCommand("jtPVP").setExecutor(new JunkTeamPVPCommand(this));
+        saveDefaultConfig();
     }
 
     @Override
@@ -124,5 +126,24 @@ public class JunkTeamPVP extends JavaPlugin {
         itemMeta.setUnbreakable(true);
         jgWeapon.setItemMeta(itemMeta);
         return jgWeapon;
+    }
+
+    private FileConfiguration config = null;
+
+    public FileConfiguration config(){
+        load();
+        return config;
+    }
+
+    public void load() {
+        saveDefaultConfig();
+        if (config != null) {
+            reload();
+        }
+        config = getConfig();
+    }
+
+    public void reload() {
+        reloadConfig();
     }
 }

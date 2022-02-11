@@ -22,7 +22,8 @@ public class JunkTeamPVPCommand implements CommandExecutor {
             }
             if (args[0].equalsIgnoreCase("reload")) {
                 if (sender.hasPermission("JunkTeamPVPCommand.permission.Admin")) {
-
+                    plugin.reload();
+                    sender.sendMessage("config reload...");
                 }
                 return true;
             }

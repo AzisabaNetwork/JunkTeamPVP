@@ -1,6 +1,7 @@
 package com.github.sirokuri_.JunkTeamPVP.listener;
 
 import com.github.sirokuri_.JunkTeamPVP.JunkTeamPVP;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -27,17 +28,21 @@ public class JunkTeamPVPGuard implements Listener {
         //ダメージを与えたエンティティやダメージを受けたエンティティがプレイヤー以外なら処理を行わなずreturnする
         if (!(damage instanceof Player)) return;
         if (!(entity instanceof Player)) return;
+        String worldName = plugin.config().getString("worldName");
+        if (worldName == null || worldName.equals("Default")) return;
         //取得したワールドがjgTutorial以外は処理を行わずreturnする
         World world1 = entity.getWorld();
         World world2 = damage.getWorld();
-        if (!world1.getName().equals("jgTutorial") && !world2.getName().equals("jgTutorial")) return;
+        if (!world1.getName().equals(worldName) && !world2.getName().equals(worldName)) return;
         if (!(plugin.blueTeam.contains(entity) && plugin.redTeam.contains(damage)) && !(plugin.redTeam.contains(entity) && plugin.blueTeam.contains(damage))) event.setCancelled(true);
     }
 
     @EventHandler
     public void onChangeWorld(PlayerChangedWorldEvent event){
         Player player = event.getPlayer();
-        if (player.getWorld().getName().contains("jgTutorial")) {
+        String worldName = plugin.config().getString("worldName");
+        if (worldName == null || worldName.equals("Default")) return;
+        if (player.getWorld().getName().contains(worldName)) {
             player.sendMessage("ゲームが終了するまで再度エントリーができません");
             player.getInventory().setHelmet(new ItemStack(Material.AIR));
             player.getInventory().setChestplate(new ItemStack(Material.AIR));

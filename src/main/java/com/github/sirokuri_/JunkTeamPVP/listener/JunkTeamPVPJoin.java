@@ -39,9 +39,10 @@ public class JunkTeamPVPJoin implements Listener {
         Player player = event.getPlayer();
         //クリックしたブロックを取得
         Block block = event.getClickedBlock();
-        //取得したワールドがjgTutorial以外は処理を行わずreturnする
         World world = player.getWorld();
-        if (!world.getName().equals("jgTutorial")) return;
+        String worldName = plugin.config().getString("worldName");
+        if (worldName == null || worldName.equals("Default")) return;
+        if (!world.getName().equals(worldName)) return;
         //ブロックがなければ処理を行わずreturnする
         if (block == null) return;
         //クリックした際にメインハンド以外とブロックを左クリックした時は処理を行わずreturnする
@@ -100,8 +101,14 @@ public class JunkTeamPVPJoin implements Listener {
 
     //ゲーム(PVP)の起動部分
     public void startTimer() {
+        int gameTimer = plugin.config().getInt("gameTimer");
+        if (gameTimer == 0) {
+            Bukkit.getLogger().info(ChatColor.RED + "ゲームの時間指定が0になっています、運営は変更してください");
+            Bukkit.broadcastMessage(ChatColor.RED + "ゲーム時間が0になっています、運営へチケットを飛ばしてください");
+            return;
+        }
         //ゲームの秒数を変数として作成
-        AtomicInteger countdownStarter = new AtomicInteger(20);
+        AtomicInteger countdownStarter = new AtomicInteger(gameTimer);
         //ボスバー作成
         BossBar bossBar = Bukkit.createBossBar(ChatColor.DARK_PURPLE + "チーム対抗PVP : マッチ終了まで" + countdownStarter + " 秒", BarColor.PURPLE, BarStyle.SOLID);
         //試合開始人数の指定：現状はデバッグ用に一名で起動する様にしている
@@ -128,7 +135,9 @@ public class JunkTeamPVPJoin implements Listener {
                     for (Player players : Bukkit.getServer().getOnlinePlayers()) {
                         if (plugin.redTeam.contains(players) || plugin.blueTeam.contains(players)){
                             players.sendMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] 試合時間が0になったので試合を終了します!");
-                            if (!players.getWorld().getName().equals("jgTutorial")) return;
+                            String worldName = plugin.config().getString("worldName");
+                            if (worldName == null || worldName.equals("Default")) return;
+                            if (!players.getWorld().getName().equals(worldName)) return;
                             players.getInventory().setHelmet(new ItemStack(Material.AIR));
                             players.getInventory().setChestplate(new ItemStack(Material.AIR));
                             players.getInventory().setLeggings(new ItemStack(Material.AIR));
