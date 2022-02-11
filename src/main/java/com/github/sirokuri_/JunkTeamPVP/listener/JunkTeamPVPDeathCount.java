@@ -2,6 +2,7 @@ package com.github.sirokuri_.JunkTeamPVP.listener;
 
 import com.github.sirokuri_.JunkTeamPVP.JunkTeamPVP;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,11 +27,19 @@ public class JunkTeamPVPDeathCount implements Listener {
         if (world == null) return;
         if (!world.getName().equals("jgTutorial")) return;
         if (plugin.redTeam.contains(player)){
-            plugin.blueTeamDeathCount++;
-            Bukkit.broadcastMessage("" + plugin.blueTeamDeathCount);
+            plugin.blueTeamCount++;
+            for (Player players : Bukkit.getServer().getOnlinePlayers()) {
+                if (players.getWorld().getName().equals("jgTutorial")) {
+                    players.sendMessage(ChatColor.BLUE + "青チームが " + plugin.blueTeamCount + " ポイント");
+                }
+            }
         }else if (plugin.blueTeam.contains(player)){
-            plugin.redTeamDeathCount++;
-            Bukkit.broadcastMessage("" + plugin.redTeamDeathCount);
+            plugin.redTeamCount++;
+            for (Player players : Bukkit.getServer().getOnlinePlayers()) {
+                if (players.getWorld().getName().equals("jgTutorial")) {
+                    players.sendMessage(ChatColor.RED + "赤チームが " + plugin.redTeamCount + " ポイント");
+                }
+            }
         }
     }
 }

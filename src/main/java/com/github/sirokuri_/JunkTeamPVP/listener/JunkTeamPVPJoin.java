@@ -135,8 +135,15 @@ public class JunkTeamPVPJoin implements Listener {
                             players.getInventory().setLeggings(new ItemStack(Material.AIR));
                             players.getInventory().setBoots(new ItemStack(Material.AIR));
                             players.getInventory().remove(plugin.jgWeapon());
-                            plugin.redTeamDeathCount = 0;
-                            plugin.blueTeamDeathCount = 0;
+                            if (plugin.redTeamCount > plugin.blueTeamCount){
+                                players.sendMessage(ChatColor.RED + "赤チームが勝利しました");
+                            }else if (plugin.redTeamCount < plugin.blueTeamCount){
+                                players.sendMessage(ChatColor.RED + "青チームが勝利しました");
+                            }else {
+                                players.sendMessage(ChatColor.DARK_PURPLE + "引き分けになりました");
+                            }
+                            plugin.redTeamCount = 0;
+                            plugin.blueTeamCount = 0;
                         }
                     }
                     //スケジューラーを閉じる
