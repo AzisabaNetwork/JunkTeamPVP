@@ -92,10 +92,10 @@ public class JunkTeamPVPJoin implements Listener {
         } else if(plugin.redTeam.contains(player) || plugin.blueTeam.contains(player)){
             player.sendMessage(ChatColor.RED + "既にあなたはチームへ参加しています！");
         } else {
-            return;
-        }/*ここはデバッグ用に用意したコード
-        player.sendMessage("" + plugin.blueTeam.contains(player) + "\n" + plugin.redTeam.contains(player) + "\n" + plugin.onlinePlayers.contains(player));
-        */
+            player.sendMessage(ChatColor.RED + "マッチが終了するまで参加できません");
+        }
+        //デバッグ用の機能
+        //player.sendMessage("" + plugin.blueTeam.contains(player) + "\n" + plugin.redTeam.contains(player) + "\n" + plugin.onlinePlayers.contains(player));
     }
 
     //ゲーム(PVP)の起動部分
@@ -117,8 +117,7 @@ public class JunkTeamPVPJoin implements Listener {
                 if (countdownStarter.get() > 0) {
                     for (Player players : Bukkit.getServer().getOnlinePlayers()) {
                         //ボスバーにプレイヤーを追加する
-                        World world = players.getWorld();
-                        if (world.getName().equals("jgTutorial")){
+                        if (plugin.redTeam.contains(players) || plugin.blueTeam.contains(players)){
                             bossBar.addPlayer(players);
                         }
                     }
@@ -127,9 +126,9 @@ public class JunkTeamPVPJoin implements Listener {
                     //試合のカウントダウンが0秒の時処理を実行
                 } else if (countdownStarter.get() == 0) {
                     for (Player players : Bukkit.getServer().getOnlinePlayers()) {
-                        World world = players.getWorld();
-                        if (world.getName().equals("jgTutorial")){
+                        if (plugin.redTeam.contains(players) || plugin.blueTeam.contains(players)){
                             players.sendMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] 試合時間が0になったので試合を終了します!");
+                            if (!players.getWorld().getName().equals("jgTutorial")) return;
                             players.getInventory().setHelmet(new ItemStack(Material.AIR));
                             players.getInventory().setChestplate(new ItemStack(Material.AIR));
                             players.getInventory().setLeggings(new ItemStack(Material.AIR));
@@ -142,10 +141,10 @@ public class JunkTeamPVPJoin implements Listener {
                             }else {
                                 players.sendMessage(ChatColor.DARK_PURPLE + "引き分けになりました");
                             }
-                            plugin.redTeamCount = 0;
-                            plugin.blueTeamCount = 0;
                         }
                     }
+                    plugin.redTeamCount = 0;
+                    plugin.blueTeamCount = 0;
                     //スケジューラーを閉じる
                     scheduler.shutdown();
                     //ボスバー削除
