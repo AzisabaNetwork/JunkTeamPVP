@@ -10,7 +10,6 @@ import org.bukkit.block.Sign;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,6 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class JunkTeamPVPJoin implements Listener {
 
     public final JunkTeamPVP plugin;
+    int matchPlayers = 1;
 
     public JunkTeamPVPJoin(JunkTeamPVP junkTeamPVP){
         //コンストラクタ内の処理
@@ -39,7 +39,6 @@ public class JunkTeamPVPJoin implements Listener {
         Player player = event.getPlayer();
         //クリックしたブロックを取得
         Block block = event.getClickedBlock();
-        int matchPlayers = 1;
         //取得したワールドがjgTutorial以外は処理を行わずreturnする
         World world = player.getWorld();
         if (!world.getName().equals("jgTutorial")) return;
@@ -106,7 +105,6 @@ public class JunkTeamPVPJoin implements Listener {
         //ボスバー作成
         BossBar bossBar = Bukkit.createBossBar(ChatColor.DARK_PURPLE + "チーム対抗PVP : マッチ終了まで" + countdownStarter + " 秒", BarColor.PURPLE, BarStyle.SOLID);
         //試合開始人数の指定：現状はデバッグ用に一名で起動する様にしている
-        int matchPlayers = 1;
         //試合にエントリーしたプレイヤーが赤チームか青チームに入っていて試合開始人数と同じになったら試合を開始する
         if (plugin.redTeam.size() + plugin.blueTeam.size() == matchPlayers) {
             plugin.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] エントリーが" + matchPlayers + "以上の為ゲームを開始します");
@@ -129,10 +127,16 @@ public class JunkTeamPVPJoin implements Listener {
                     //試合のカウントダウンが0秒の時処理を実行
                 } else if (countdownStarter.get() == 0) {
                     for (Player players : Bukkit.getServer().getOnlinePlayers()) {
-                        //ボスバーにプレイヤーを追加する
                         World world = players.getWorld();
                         if (world.getName().equals("jgTutorial")){
                             players.sendMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] 試合時間が0になったので試合を終了します!");
+                            players.getInventory().setHelmet(new ItemStack(Material.AIR));
+                            players.getInventory().setChestplate(new ItemStack(Material.AIR));
+                            players.getInventory().setLeggings(new ItemStack(Material.AIR));
+                            players.getInventory().setBoots(new ItemStack(Material.AIR));
+                            players.getInventory().remove(plugin.jgWeapon());
+                            plugin.redTeamDeathCount = 0;
+                            plugin.blueTeamDeathCount = 0;
                         }
                     }
                     //スケジューラーを閉じる
@@ -143,16 +147,6 @@ public class JunkTeamPVPJoin implements Listener {
                     plugin.onlinePlayers.clear();
                     plugin.redTeam.clear();
                     plugin.blueTeam.clear();
-                    for (Player players : Bukkit.getServer().getOnlinePlayers()) {
-                        World world = players.getWorld();
-                        if (world.getName().equals("jgTutorial")){
-                            players.getInventory().remove(new ItemStack(Material.AIR));
-                            players.getInventory().remove(new ItemStack(Material.AIR));
-                            players.getInventory().setLeggings(new ItemStack(Material.AIR));
-                            players.getInventory().setBoots(new ItemStack(Material.AIR));
-                            players.getInventory().remove(plugin.jgWeapon());
-                        }
-                    }
                 }
             };
             scheduler.scheduleAtFixedRate(runnable, 0, 1, TimeUnit.SECONDS);
