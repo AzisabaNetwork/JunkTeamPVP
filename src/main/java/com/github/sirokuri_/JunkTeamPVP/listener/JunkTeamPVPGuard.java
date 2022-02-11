@@ -38,7 +38,7 @@ public class JunkTeamPVPGuard implements Listener {
     public void onChangeWorld(PlayerChangedWorldEvent event){
         Player player = event.getPlayer();
         if (player.getWorld().getName().contains("jgTutorial")) {
-            player.sendMessage("装備がエントリー前に戻ったので再度エントリーをしてください");
+            player.sendMessage("ゲームが終了するまで再度エントリーができません");
             player.getInventory().setHelmet(new ItemStack(Material.AIR));
             player.getInventory().setChestplate(new ItemStack(Material.AIR));
             player.getInventory().setLeggings(new ItemStack(Material.AIR));
