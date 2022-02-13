@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Collection;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +24,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class JunkTeamPVPJoin implements Listener {
 
     public final JunkTeamPVP plugin;
-    int matchPlayers = 1;
 
     public JunkTeamPVPJoin(JunkTeamPVP junkTeamPVP){
         //コンストラクタ内の処理
@@ -38,6 +38,7 @@ public class JunkTeamPVPJoin implements Listener {
         Block block = event.getClickedBlock();
         World world = player.getWorld();
         String worldName = plugin.config().getString("worldName");
+        int matchPlayers = plugin.config().getInt("matchPlayers");
         if (worldName == null || worldName.equals("Default")) return;
         if (!world.getName().equals(worldName)) return;
         //ブロックがなければ処理を行わずreturnする
@@ -70,7 +71,6 @@ public class JunkTeamPVPJoin implements Listener {
                 player.getInventory().setArmorContents(armor);
                 player.getInventory().setItemInMainHand(plugin.jgWeapon());
                 player.sendMessage(ChatColor.RED + "赤チームに参加しました");
-                player.performCommand("jtPVP warp redSpawn");
                 //赤チームに振り分けられなかったプレイヤーをもう片方のチームに入れる
             } else {
                 //青チームに振り分けられたプレイヤーを青チームのリストに追加する
@@ -83,13 +83,12 @@ public class JunkTeamPVPJoin implements Listener {
                 player.getInventory().setArmorContents(armor);
                 player.getInventory().setItemInMainHand(plugin.jgWeapon());
                 player.sendMessage(ChatColor.BLUE + "青チームに参加しました");
-                player.performCommand("jtPVP warp blueSpawn");
                 //スケジューラーを開始する
                 if (plugin.redTeam.size() + plugin.blueTeam.size() == matchPlayers) {
                     startTimer();
                 }
             }
-        //チームにすでにプレイヤーが入っていた場合処理を行う
+            //チームにすでにプレイヤーが入っていた場合処理を行う
         } else if(plugin.redTeam.contains(player) || plugin.blueTeam.contains(player)){
             player.sendMessage(ChatColor.RED + "既にあなたはチームへ参加しています！");
         } else {
@@ -102,6 +101,7 @@ public class JunkTeamPVPJoin implements Listener {
     //ゲーム(PVP)の起動部分
     public void startTimer() {
         int gameTimer = plugin.config().getInt("gameTimer");
+        int matchPlayers = plugin.config().getInt("matchPlayers");
         //ゲームの秒数を変数として作成
         AtomicInteger countdownStarter = new AtomicInteger(gameTimer);
         //ボスバー作成
@@ -109,7 +109,15 @@ public class JunkTeamPVPJoin implements Listener {
         //試合開始人数の指定：現状はデバッグ用に一名で起動する様にしている
         //試合にエントリーしたプレイヤーが赤チームか青チームに入っていて試合開始人数と同じになったら試合を開始する
         if (plugin.redTeam.size() + plugin.blueTeam.size() == matchPlayers) {
-            plugin.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] エントリーが" + matchPlayers + "以上の為ゲームを開始します");
+            plugin.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] エントリー数が " + matchPlayers + " 名以上の為ゲームを開始します");
+            for(Player p : Bukkit.getServer().getOnlinePlayers()){
+                if (plugin.redTeam.contains(p)) {
+                    p.performCommand("jtPVP warp redSpawn");
+                }
+                if (plugin.blueTeam.contains(p)) {
+                    p.performCommand("jtPVP warp blueSpawn");
+                }
+            }
             //スケジューラーを変数化する
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
             //スケジューラーを開始する
