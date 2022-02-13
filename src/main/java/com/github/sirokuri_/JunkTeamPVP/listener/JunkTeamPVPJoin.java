@@ -87,39 +87,10 @@ public class JunkTeamPVPJoin implements Listener {
                 player.getInventory().setItemInMainHand(plugin.jgWeapon());
                 player.sendMessage(ChatColor.BLUE + "青チームに参加しました");
                 player.performCommand("jtPVP warp blueSpawn");
-                int gameStartTimer = plugin.config().getInt("gameStartTimer");
-                if (gameStartTimer == 0) {
-                    Bukkit.getLogger().info(ChatColor.RED + "[JunkTeamPVP] ゲームの開始までの時間指定が0になっています、運営は変更してください");
-                    player.sendMessage(ChatColor.RED + "[JunkTeamPVP] ゲーム時間が0になっています、運営へチケットを飛ばしてください");
-                    return;
-                }
-                AtomicInteger countdownStarter = new AtomicInteger(gameStartTimer);
-                BossBar bossBar = Bukkit.createBossBar(ChatColor.DARK_PURPLE + "チーム対抗PVP : マッチ開始まで" + countdownStarter + " 秒", BarColor.PURPLE, BarStyle.SOLID);
-                ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
                 //スケジューラーを開始する
-                Runnable runnable = () -> {
-                    countdownStarter.getAndDecrement();
-                    //試合のカウントダウンが0秒以上の時処理を実行
-                    if (countdownStarter.get() > 0) {
-                        for (Player players : Bukkit.getServer().getOnlinePlayers()) {
-                            //ボスバーにプレイヤーを追加する
-                            if (plugin.redTeam.contains(players) || plugin.blueTeam.contains(players)){
-                                bossBar.addPlayer(players);
-                            }
-                        }
-                        //カウントダウンをボスバーに反映する
-                        bossBar.setTitle(ChatColor.DARK_PURPLE + "チーム対抗PVP : マッチ開始まで" + countdownStarter  + " 秒");
-                        //試合のカウントダウンが0秒の時処理を実行
-                    } else if (countdownStarter.get() == 0) {
-                        if (plugin.redTeam.size() + plugin.blueTeam.size() == matchPlayers) {
-                            startTimer();
-
-                        }
-                        scheduler.shutdown();
-                        bossBar.removeAll();
-                    }
-                };
-                scheduler.scheduleAtFixedRate(runnable, 0, 1, TimeUnit.SECONDS);
+                if (plugin.redTeam.size() + plugin.blueTeam.size() == matchPlayers) {
+                    startTimer();
+                }
             }
         //チームにすでにプレイヤーが入っていた場合処理を行う
         } else if(plugin.redTeam.contains(player) || plugin.blueTeam.contains(player)){
@@ -134,11 +105,6 @@ public class JunkTeamPVPJoin implements Listener {
     //ゲーム(PVP)の起動部分
     public void startTimer() {
         int gameTimer = plugin.config().getInt("gameTimer");
-        if (gameTimer == 0) {
-            Bukkit.getLogger().info(ChatColor.RED + "[JunkTeamPVP] ゲームの時間指定が0になっています、運営は変更してください");
-            Bukkit.broadcastMessage(ChatColor.RED + "[JunkTeamPVP] ゲーム時間が0になっています、運営へチケットを飛ばしてください");
-            return;
-        }
         //ゲームの秒数を変数として作成
         AtomicInteger countdownStarter = new AtomicInteger(gameTimer);
         //ボスバー作成
@@ -176,11 +142,11 @@ public class JunkTeamPVPJoin implements Listener {
                             players.getInventory().setBoots(new ItemStack(Material.AIR));
                             players.getInventory().remove(plugin.jgWeapon());
                             if (plugin.redTeamCount > plugin.blueTeamCount){
-                                players.sendMessage(ChatColor.RED + "赤チームが勝利しました");
+                                players.sendTitle("" + ChatColor.RED + plugin.redTeamCount + ChatColor.DARK_PURPLE + " : " + ChatColor.BLUE + plugin.blueTeamCount,ChatColor.RED + "赤チームが勝利しました",10,70,20);
                             }else if (plugin.redTeamCount < plugin.blueTeamCount){
-                                players.sendMessage(ChatColor.RED + "青チームが勝利しました");
+                                players.sendTitle("" + ChatColor.RED + plugin.redTeamCount + ChatColor.DARK_PURPLE + " : " + ChatColor.BLUE + plugin.blueTeamCount,ChatColor.BLUE + "青チームが勝利しました",10,70,20);
                             }else {
-                                players.sendMessage(ChatColor.DARK_PURPLE + "引き分けになりました");
+                                players.sendTitle("" + ChatColor.RED + plugin.redTeamCount + ChatColor.DARK_PURPLE + " : " + ChatColor.BLUE + plugin.blueTeamCount,ChatColor.DARK_PURPLE + "引き分けになりました",10,70,20);
                             }
                         }
                     }
