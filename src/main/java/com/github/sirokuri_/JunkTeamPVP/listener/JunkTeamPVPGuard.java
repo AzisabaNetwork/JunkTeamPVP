@@ -1,7 +1,6 @@
 package com.github.sirokuri_.JunkTeamPVP.listener;
 
 import com.github.sirokuri_.JunkTeamPVP.JunkTeamPVP;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -20,14 +19,14 @@ public class JunkTeamPVPGuard implements Listener {
         this.plugin = junkTeamPVP;
     }
 
+    @SuppressWarnings("SuspiciousMethodCalls")
     @EventHandler
     public void onTeamPVP(EntityDamageByEntityEvent event){
         //ダメージを与えたエンティティやダメージを受けたエンティティを取得
         Entity entity = event.getEntity();
         Entity damage = event.getDamager();
+        if (!(entity instanceof Player || damage instanceof Player)) return;
         //ダメージを与えたエンティティやダメージを受けたエンティティがプレイヤー以外なら処理を行わなずreturnする
-        if (!(damage instanceof Player)) return;
-        if (!(entity instanceof Player)) return;
         String worldName = plugin.config().getString("worldName");
         if (worldName == null || worldName.equals("Default")) return;
         //取得したワールドがjgTutorial以外は処理を行わずreturnする
