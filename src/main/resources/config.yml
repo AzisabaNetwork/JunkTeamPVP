@@ -1,3 +1,5 @@
-worldName: "Default"
-gameTimer: 0
-gameStartTimer: 0
+worldName: junkTeamPVP
+gameTimer: 60
+blueSpawn: junkTeamPVP,-652,67,-233,-88,1
+redSpawn: junkTeamPVP,-564,69,-232,91,0
+lobbySpawn: junkTeamPVP,-606,185,-230,90,23
