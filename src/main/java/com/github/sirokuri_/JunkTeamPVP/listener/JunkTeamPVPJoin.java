@@ -73,6 +73,7 @@ public class JunkTeamPVPJoin implements Listener {
                 player.getInventory().setArmorContents(armor);
                 player.getInventory().setItemInMainHand(plugin.jgWeapon());
                 player.sendMessage(ChatColor.RED + "赤チームに参加しました");
+                player.performCommand("jtPVP warp redSpawn");
                 //赤チームに振り分けられなかったプレイヤーをもう片方のチームに入れる
             } else {
                 //青チームに振り分けられたプレイヤーを青チームのリストに追加する
@@ -85,6 +86,7 @@ public class JunkTeamPVPJoin implements Listener {
                 player.getInventory().setArmorContents(armor);
                 player.getInventory().setItemInMainHand(plugin.jgWeapon());
                 player.sendMessage(ChatColor.BLUE + "青チームに参加しました");
+                player.performCommand("jtPVP warp blueSpawn");
                 int gameStartTimer = plugin.config().getInt("gameStartTimer");
                 if (gameStartTimer == 0) {
                     Bukkit.getLogger().info(ChatColor.RED + "[JunkTeamPVP] ゲームの開始までの時間指定が0になっています、運営は変更してください");
