@@ -1,6 +1,11 @@
 package com.github.sirokuri_.JunkTeamPVP.listener;
 
 import com.github.sirokuri_.JunkTeamPVP.JunkTeamPVP;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -15,7 +20,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -102,6 +107,7 @@ public class JunkTeamPVPJoin implements Listener {
     public void startTimer() {
         int gameTimer = plugin.config().getInt("gameTimer");
         int matchPlayers = plugin.config().getInt("matchPlayers");
+        String worldName = plugin.config().getString("worldName");
         //ゲームの秒数を変数として作成
         AtomicInteger countdownStarter = new AtomicInteger(gameTimer);
         //ボスバー作成
@@ -109,13 +115,15 @@ public class JunkTeamPVPJoin implements Listener {
         //試合開始人数の指定：現状はデバッグ用に一名で起動する様にしている
         //試合にエントリーしたプレイヤーが赤チームか青チームに入っていて試合開始人数と同じになったら試合を開始する
         if (plugin.redTeam.size() + plugin.blueTeam.size() == matchPlayers) {
-            plugin.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] エントリー数が " + matchPlayers + " 名以上の為ゲームを開始します");
             for(Player p : Bukkit.getServer().getOnlinePlayers()){
-                if (plugin.redTeam.contains(p)) {
-                    p.performCommand("jtPVP warp redSpawn");
-                }
-                if (plugin.blueTeam.contains(p)) {
-                    p.performCommand("jtPVP warp blueSpawn");
+                if (p.getWorld().getName().equals(worldName)){
+                    p.sendMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] エントリー数が " + matchPlayers + " 名以上の為ゲームを開始します");
+                    if (plugin.redTeam.contains(p)) {
+                        p.performCommand("jtPVP warp redSpawn");
+                    }
+                    if (plugin.blueTeam.contains(p)) {
+                        p.performCommand("jtPVP warp blueSpawn");
+                    }
                 }
             }
             //スケジューラーを変数化する
@@ -138,7 +146,6 @@ public class JunkTeamPVPJoin implements Listener {
                     for (Player players : Bukkit.getServer().getOnlinePlayers()) {
                         if (plugin.redTeam.contains(players) || plugin.blueTeam.contains(players)){
                             players.sendMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] 試合時間が0になったので試合を終了します!");
-                            String worldName = plugin.config().getString("worldName");
                             if (worldName == null || worldName.equals("Default")) return;
                             if (!players.getWorld().getName().equals(worldName)) return;
                             players.getInventory().setHelmet(new ItemStack(Material.AIR));
@@ -152,6 +159,36 @@ public class JunkTeamPVPJoin implements Listener {
                                 players.sendTitle("" + ChatColor.RED + plugin.redTeamCount + ChatColor.DARK_PURPLE + " : " + ChatColor.BLUE + plugin.blueTeamCount,ChatColor.BLUE + "青チームが勝利しました",10,70,20);
                             }else {
                                 players.sendTitle("" + ChatColor.RED + plugin.redTeamCount + ChatColor.DARK_PURPLE + " : " + ChatColor.BLUE + plugin.blueTeamCount,ChatColor.DARK_PURPLE + "引き分けになりました",10,70,20);
+                            }
+                            if (players.getWorld().getName().equals(worldName)){
+                                String hoverText = "スポーンに戻るにはこの文字をクリック!!";
+                                BaseComponent[] hover = new ComponentBuilder(hoverText).create();
+                                HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover);
+                                String command = "/spawn";
+                                ClickEvent clickEvent = new ClickEvent(ClickEvent.Action.RUN_COMMAND,command);
+                                BaseComponent[] message = new ComponentBuilder(hoverText).event(hoverEvent).event(clickEvent).create();
+
+
+                                String hoverText1 = "チームPVPロビーへ戻る場合はこの文字をクリック!!";
+                                BaseComponent[] hover1 = new ComponentBuilder(hoverText1).create();
+                                HoverEvent hoverEvent1 = new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover1);
+                                String command1 = "/jtPVP warp lobbySpawn";
+                                ClickEvent clickEvent1 = new ClickEvent(ClickEvent.Action.RUN_COMMAND,command1);
+                                BaseComponent[] message1 = new ComponentBuilder(hoverText1).event(hoverEvent1).event(clickEvent1).create();
+
+                                String hoverText2 = "他のゲームを遊びたい場合はこの文字をクリック!!";
+                                BaseComponent[] hover2 = new ComponentBuilder(hoverText2).create();
+                                HoverEvent hoverEvent2 = new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover2);
+                                String command2 = "/jgselector";
+                                ClickEvent clickEvent2 = new ClickEvent(ClickEvent.Action.RUN_COMMAND,command2);
+                                BaseComponent[] message2 = new ComponentBuilder(hoverText2).event(hoverEvent2).event(clickEvent2).create();
+                                players.sendMessage("[JunkTeamPVP] メニュー");
+                                players.sendMessage("");
+                                players.spigot().sendMessage(message);
+                                players.sendMessage("");
+                                players.spigot().sendMessage(message1);
+                                players.sendMessage("");
+                                players.spigot().sendMessage(message2);
                             }
                         }
                     }
