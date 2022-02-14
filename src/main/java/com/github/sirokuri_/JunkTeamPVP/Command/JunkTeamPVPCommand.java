@@ -2,6 +2,7 @@ package com.github.sirokuri_.JunkTeamPVP.Command;
 
 import com.github.sirokuri_.JunkTeamPVP.JunkTeamPVP;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -21,6 +22,7 @@ public class JunkTeamPVPCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player player = (Player) sender;
+        int matchPlayers = plugin.config().getInt("matchPlayers");
         if (cmd.getName().equalsIgnoreCase("jtPVP")) {
             if (args.length <= 0) {
                 return true;
@@ -84,36 +86,52 @@ public class JunkTeamPVPCommand implements CommandExecutor {
                     return true;
                 }
                 if (args[1].equalsIgnoreCase("blueSpawn")) {
-                    String data = plugin.config().getString(args[1]);
-                    if (data == null) return true;
-                    String[] loc = data.split(",");
-                    World world = Bukkit.getServer().getWorld(loc[0]);
-                    double x = Double.parseDouble(loc[1]);
-                    double y = Double.parseDouble(loc[2]);
-                    double z = Double.parseDouble(loc[3]);
-                    int yaw = (int) Double.parseDouble(loc[4]);
-                    int pitch = (int) Double.parseDouble(loc[5]);
-                    Location location = new Location(world, x, y, z);
-                    location.setPitch(pitch);
-                    location.setYaw(yaw);
-                    player.teleport(location);
+                    if (plugin.redTeam.size() + plugin.blueTeam.size() >= matchPlayers) {
+                        if (plugin.blueTeam.contains(player)){
+                            String data = plugin.config().getString(args[1]);
+                            if (data == null) return true;
+                            String[] loc = data.split(",");
+                            World world = Bukkit.getServer().getWorld(loc[0]);
+                            double x = Double.parseDouble(loc[1]);
+                            double y = Double.parseDouble(loc[2]);
+                            double z = Double.parseDouble(loc[3]);
+                            int yaw = (int) Double.parseDouble(loc[4]);
+                            int pitch = (int) Double.parseDouble(loc[5]);
+                            Location location = new Location(world, x, y, z);
+                            location.setPitch(pitch);
+                            location.setYaw(yaw);
+                            player.teleport(location);
+                        }else{
+                            player.sendMessage(ChatColor.RED + "あなたはこのチームではありません");
+                        }
+                    }else {
+                        player.sendMessage(matchPlayers + "名以上になるまでワープできません");
+                    }
                     return true;
                 }
 
                 if (args[1].equalsIgnoreCase("redSpawn")) {
-                    String data = plugin.config().getString(args[1]);
-                    if (data == null) return true;
-                    String[] loc = data.split(",");
-                    World world = Bukkit.getServer().getWorld(loc[0]);
-                    double x = Double.parseDouble(loc[1]);
-                    double y = Double.parseDouble(loc[2]);
-                    double z = Double.parseDouble(loc[3]);
-                    int yaw = (int) Double.parseDouble(loc[4]);
-                    int pitch = (int) Double.parseDouble(loc[5]);
-                    Location location = new Location(world, x, y, z);
-                    location.setPitch(pitch);
-                    location.setYaw(yaw);
-                    player.teleport(location);
+                    if (plugin.redTeam.size() + plugin.blueTeam.size() >= matchPlayers) {
+                        if (plugin.redTeam.contains(player)){
+                            String data = plugin.config().getString(args[1]);
+                            if (data == null) return true;
+                            String[] loc = data.split(",");
+                            World world = Bukkit.getServer().getWorld(loc[0]);
+                            double x = Double.parseDouble(loc[1]);
+                            double y = Double.parseDouble(loc[2]);
+                            double z = Double.parseDouble(loc[3]);
+                            int yaw = (int) Double.parseDouble(loc[4]);
+                            int pitch = (int) Double.parseDouble(loc[5]);
+                            Location location = new Location(world, x, y, z);
+                            location.setPitch(pitch);
+                            location.setYaw(yaw);
+                            player.teleport(location);
+                        }else{
+                            player.sendMessage(ChatColor.RED + "あなたはこのチームではありません");
+                        }
+                    }else {
+                        player.sendMessage(matchPlayers + "名以上になるまでワープできません");
+                    }
                     return true;
                 }
 

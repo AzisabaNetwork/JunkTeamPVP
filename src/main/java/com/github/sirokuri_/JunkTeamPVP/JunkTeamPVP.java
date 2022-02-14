@@ -128,6 +128,19 @@ public class JunkTeamPVP extends JavaPlugin {
         return jgWeapon;
     }
 
+    public ItemStack jgWeapon1(){
+        ItemStack jgWeapon = new ItemStack (Material.BOW);
+        jgWeapon.addEnchantment(Enchantment.ARROW_INFINITE,1);
+        ItemMeta itemMeta = jgWeapon.getItemMeta();
+        itemMeta.setUnbreakable(true);
+        jgWeapon.setItemMeta(itemMeta);
+        return jgWeapon;
+    }
+
+    public ItemStack jgWeapon2(){
+        return new ItemStack (Material.ARROW);
+    }
+
     private FileConfiguration config = null;
 
     public FileConfiguration config(){

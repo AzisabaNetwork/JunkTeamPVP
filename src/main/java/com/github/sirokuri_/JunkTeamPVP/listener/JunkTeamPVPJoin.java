@@ -1,7 +1,6 @@
 package com.github.sirokuri_.JunkTeamPVP.listener;
 
 import com.github.sirokuri_.JunkTeamPVP.JunkTeamPVP;
-import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -20,7 +19,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -75,6 +73,8 @@ public class JunkTeamPVPJoin implements Listener {
                 armor[3] = plugin.redTeamHelmet();
                 player.getInventory().setArmorContents(armor);
                 player.getInventory().setItemInMainHand(plugin.jgWeapon());
+                player.getInventory().addItem(plugin.jgWeapon1());
+                player.getInventory().addItem(plugin.jgWeapon2());
                 player.sendMessage(ChatColor.RED + "赤チームに参加しました");
                 //赤チームに振り分けられなかったプレイヤーをもう片方のチームに入れる
             } else {
@@ -87,6 +87,8 @@ public class JunkTeamPVPJoin implements Listener {
                 armor[3] = plugin.blueTeamHelmet();
                 player.getInventory().setArmorContents(armor);
                 player.getInventory().setItemInMainHand(plugin.jgWeapon());
+                player.getInventory().addItem(plugin.jgWeapon1());
+                player.getInventory().addItem(plugin.jgWeapon2());
                 player.sendMessage(ChatColor.BLUE + "青チームに参加しました");
                 //スケジューラーを開始する
                 if (plugin.redTeam.size() + plugin.blueTeam.size() == matchPlayers) {
@@ -118,12 +120,6 @@ public class JunkTeamPVPJoin implements Listener {
             for(Player p : Bukkit.getServer().getOnlinePlayers()){
                 if (p.getWorld().getName().equals(worldName)){
                     p.sendMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] エントリー数が " + matchPlayers + " 名以上の為ゲームを開始します");
-                    if (plugin.redTeam.contains(p)) {
-                        p.performCommand("jtPVP warp redSpawn");
-                    }
-                    if (plugin.blueTeam.contains(p)) {
-                        p.performCommand("jtPVP warp blueSpawn");
-                    }
                 }
             }
             //スケジューラーを変数化する
@@ -153,6 +149,8 @@ public class JunkTeamPVPJoin implements Listener {
                             players.getInventory().setLeggings(new ItemStack(Material.AIR));
                             players.getInventory().setBoots(new ItemStack(Material.AIR));
                             players.getInventory().remove(plugin.jgWeapon());
+                            players.getInventory().remove(plugin.jgWeapon1());
+                            players.getInventory().remove(plugin.jgWeapon2());
                             if (plugin.redTeamCount > plugin.blueTeamCount){
                                 players.sendTitle("" + ChatColor.RED + plugin.redTeamCount + ChatColor.DARK_PURPLE + " : " + ChatColor.BLUE + plugin.blueTeamCount,ChatColor.RED + "赤チームが勝利しました",10,70,20);
                             }else if (plugin.redTeamCount < plugin.blueTeamCount){
@@ -161,30 +159,20 @@ public class JunkTeamPVPJoin implements Listener {
                                 players.sendTitle("" + ChatColor.RED + plugin.redTeamCount + ChatColor.DARK_PURPLE + " : " + ChatColor.BLUE + plugin.blueTeamCount,ChatColor.DARK_PURPLE + "引き分けになりました",10,70,20);
                             }
                             if (players.getWorld().getName().equals(worldName)){
-                                String hoverText = "スポーンに戻るにはこの文字をクリック!!";
-                                BaseComponent[] hover = new ComponentBuilder(hoverText).create();
-                                HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover);
-                                String command = "/spawn";
-                                ClickEvent clickEvent = new ClickEvent(ClickEvent.Action.RUN_COMMAND,command);
-                                BaseComponent[] message = new ComponentBuilder(hoverText).event(hoverEvent).event(clickEvent).create();
-
-
                                 String hoverText1 = "チームPVPロビーへ戻る場合はこの文字をクリック!!";
-                                BaseComponent[] hover1 = new ComponentBuilder(hoverText1).create();
+                                BaseComponent[] hover1 = new ComponentBuilder(ChatColor.GREEN + hoverText1).create();
                                 HoverEvent hoverEvent1 = new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover1);
                                 String command1 = "/jtPVP warp lobbySpawn";
                                 ClickEvent clickEvent1 = new ClickEvent(ClickEvent.Action.RUN_COMMAND,command1);
-                                BaseComponent[] message1 = new ComponentBuilder(hoverText1).event(hoverEvent1).event(clickEvent1).create();
+                                BaseComponent[] message1 = new ComponentBuilder(ChatColor.LIGHT_PURPLE + hoverText1).event(hoverEvent1).event(clickEvent1).create();
 
                                 String hoverText2 = "他のゲームを遊びたい場合はこの文字をクリック!!";
-                                BaseComponent[] hover2 = new ComponentBuilder(hoverText2).create();
+                                BaseComponent[] hover2 = new ComponentBuilder(ChatColor.GREEN + hoverText2).create();
                                 HoverEvent hoverEvent2 = new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover2);
                                 String command2 = "/jgselector";
                                 ClickEvent clickEvent2 = new ClickEvent(ClickEvent.Action.RUN_COMMAND,command2);
-                                BaseComponent[] message2 = new ComponentBuilder(hoverText2).event(hoverEvent2).event(clickEvent2).create();
-                                players.sendMessage("[JunkTeamPVP] メニュー");
-                                players.sendMessage("");
-                                players.spigot().sendMessage(message);
+                                BaseComponent[] message2 = new ComponentBuilder(ChatColor.LIGHT_PURPLE + hoverText2).event(hoverEvent2).event(clickEvent2).create();
+                                players.sendMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] メニュー");
                                 players.sendMessage("");
                                 players.spigot().sendMessage(message1);
                                 players.sendMessage("");
