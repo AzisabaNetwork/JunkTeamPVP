@@ -1,6 +1,7 @@
 package com.github.sirokuri_.JunkTeamPVP.listener;
 
 import com.github.sirokuri_.JunkTeamPVP.JunkTeamPVP;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -29,7 +30,6 @@ public class JunkTeamPVPGuard implements Listener {
         //ダメージを与えたエンティティやダメージを受けたエンティティがプレイヤー以外なら処理を行わなずreturnする
         String worldName = plugin.config().getString("worldName");
         if (worldName == null || worldName.equals("Default")) return;
-        //取得したワールドがjgTutorial以外は処理を行わずreturnする
         World world1 = entity.getWorld();
         World world2 = damage.getWorld();
         if (!world1.getName().equals(worldName) && !world2.getName().equals(worldName)) return;
@@ -42,12 +42,13 @@ public class JunkTeamPVPGuard implements Listener {
         String worldName = plugin.config().getString("worldName");
         if (worldName == null || worldName.equals("Default")) return;
         if (player.getWorld().getName().contains(worldName)) {
-            player.sendMessage("ゲームが終了するまで再度エントリーができません");
             player.getInventory().setHelmet(new ItemStack(Material.AIR));
             player.getInventory().setChestplate(new ItemStack(Material.AIR));
             player.getInventory().setLeggings(new ItemStack(Material.AIR));
             player.getInventory().setBoots(new ItemStack(Material.AIR));
             player.getInventory().remove(plugin.jgWeapon());
+            player.getInventory().remove(plugin.jgWeapon1());
+            player.getInventory().remove(plugin.jgWeapon2());
         }else {
             plugin.blueTeam.remove(player);
             plugin.redTeam.remove(player);
