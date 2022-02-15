@@ -36,19 +36,19 @@ public class JunkTeamPVPJoin implements Listener {
         for (Player players : Bukkit.getServer().getOnlinePlayers()) {
             if (plugin.redTeam.contains(players) || plugin.blueTeam.contains(players)) {
                 String hoverText1 = "チームPVPロビーへ戻る場合はこの文字をクリック!!";
-                BaseComponent[] hover1 = new ComponentBuilder(ChatColor.GREEN + hoverText1).create();
+                BaseComponent[] hover1 = new ComponentBuilder(ChatColor.GREEN+ hoverText1).create();
                 HoverEvent hoverEvent1 = new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover1);
                 String command1 = "/jtPVP warp lobbySpawn";
                 ClickEvent clickEvent1 = new ClickEvent(ClickEvent.Action.RUN_COMMAND,command1);
-                BaseComponent[] message1 = new ComponentBuilder(ChatColor.LIGHT_PURPLE + hoverText1).event(hoverEvent1).event(clickEvent1).create();
+                BaseComponent[] message1 = new ComponentBuilder(ChatColor.UNDERLINE + hoverText1).event(hoverEvent1).event(clickEvent1).create();
 
                 String hoverText2 = "他のゲームを遊びたい場合はこの文字をクリック!!";
                 BaseComponent[] hover2 = new ComponentBuilder(ChatColor.GREEN + hoverText2).create();
                 HoverEvent hoverEvent2 = new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover2);
                 String command2 = "/jgselector";
                 ClickEvent clickEvent2 = new ClickEvent(ClickEvent.Action.RUN_COMMAND,command2);
-                BaseComponent[] message2 = new ComponentBuilder(ChatColor.LIGHT_PURPLE + hoverText2).event(hoverEvent2).event(clickEvent2).create();
-                players.sendMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] メニュー");
+                BaseComponent[] message2 = new ComponentBuilder(ChatColor.UNDERLINE + hoverText2).event(hoverEvent2).event(clickEvent2).create();
+                players.sendMessage(ChatColor.GREEN + "[JunkTeamPVP] メニュー");
                 players.sendMessage("");
                 players.spigot().sendMessage(message1);
                 players.sendMessage("");
