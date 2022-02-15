@@ -3,8 +3,10 @@ package com.github.sirokuri_.JunkTeamPVP.listener;
 import com.github.sirokuri_.JunkTeamPVP.JunkTeamPVP;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -23,14 +25,18 @@ public class JunkTeamPVPGuard implements Listener {
     public void onTeamPVP(EntityDamageByEntityEvent event){
         Entity entity = event.getEntity();
         Entity damage = event.getDamager();
-        if (!(entity instanceof Player || damage instanceof Player)) return;
-        //ダメージを与えたエンティティやダメージを受けたエンティティがプレイヤー以外なら処理を行わなずreturnする
+        if (!(damage instanceof Player || damage instanceof Arrow)) return;
+        //ダメージを与えたエンティティがプレイヤー以外なら処理を行わなずreturnする
         String worldName = plugin.config().getString("worldName");
         if (worldName == null || worldName.equals("Default")) return;
         World world1 = entity.getWorld();
         World world2 = damage.getWorld();
         if (!world1.getName().equals(worldName) && !world2.getName().equals(worldName)) return;
-        if (!(plugin.blueTeam.contains(entity) && plugin.redTeam.contains(damage)) && !(plugin.redTeam.contains(entity) && plugin.blueTeam.contains(damage))) event.setCancelled(true);
+        if (plugin.blueTeam.contains(entity) && plugin.redTeam.contains(damage)) return;
+        if (plugin.redTeam.contains(entity) && plugin.blueTeam.contains(damage)) return;
+        if (plugin.blueTeam.contains(entity) && plugin.redTeam.contains(((Projectile) damage).getShooter())) return;
+        if (plugin.redTeam.contains(entity) && plugin.blueTeam.contains(((Projectile) damage).getShooter())) return;
+        event.setCancelled(true);
     }
 
     @EventHandler
