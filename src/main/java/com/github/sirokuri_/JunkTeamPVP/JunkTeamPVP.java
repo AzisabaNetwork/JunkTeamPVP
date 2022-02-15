@@ -121,9 +121,19 @@ public class JunkTeamPVP extends JavaPlugin {
         return redBoots;
     }
 
-    public ItemStack jgWeapon(){
+    public ItemStack jgBlueWeapon(){
         ItemStack jgWeapon = new ItemStack (Material.IRON_SWORD);
         ItemMeta itemMeta = jgWeapon.getItemMeta();
+        itemMeta.setCustomModelData(1);
+        itemMeta.setUnbreakable(true);
+        jgWeapon.setItemMeta(itemMeta);
+        return jgWeapon;
+    }
+
+    public ItemStack jgRedWeapon(){
+        ItemStack jgWeapon = new ItemStack (Material.IRON_SWORD);
+        ItemMeta itemMeta = jgWeapon.getItemMeta();
+        itemMeta.setCustomModelData(2);
         itemMeta.setUnbreakable(true);
         jgWeapon.setItemMeta(itemMeta);
         return jgWeapon;
@@ -140,46 +150,6 @@ public class JunkTeamPVP extends JavaPlugin {
 
     public ItemStack jgWeapon2(){
         return new ItemStack (Material.ARROW);
-    }
-
-    public void giveTeamWeapon(){
-        for (Player players : Bukkit.getServer().getOnlinePlayers()) {
-            if (blueTeam.contains(players)) {
-                ItemStack[] armor = new ItemStack [4];
-                armor[0] = blueTeamBoots();
-                armor[1] = blueTeamLeggings();
-                armor[2] = blueTeamChestPlate();
-                armor[3] = blueTeamHelmet();
-                players.getInventory().setArmorContents(armor);
-                players.getInventory().setItemInMainHand(jgWeapon());
-                players.getInventory().addItem(jgWeapon1());
-                players.getInventory().addItem(jgWeapon2());
-            } else if (redTeam.contains(players)) {
-                ItemStack[] armor = new ItemStack [4];
-                armor[0] = redTeamBoots();
-                armor[1] = redTeamLeggings();
-                armor[2] = redTeamChestPlate();
-                armor[3] = redTeamHelmet();
-                players.getInventory().setArmorContents(armor);
-                players.getInventory().setItemInMainHand(jgWeapon());
-                players.getInventory().addItem(jgWeapon1());
-                players.getInventory().addItem(jgWeapon2());
-            }
-        }
-    }
-
-    public void removeTeamWeapon(){
-        for (Player players : Bukkit.getServer().getOnlinePlayers()) {
-            if (blueTeam.contains(players) || redTeam.contains(players)) {
-                players.getInventory().setHelmet(new ItemStack(Material.AIR));
-                players.getInventory().setChestplate(new ItemStack(Material.AIR));
-                players.getInventory().setLeggings(new ItemStack(Material.AIR));
-                players.getInventory().setBoots(new ItemStack(Material.AIR));
-                players.getInventory().remove(jgWeapon());
-                players.getInventory().remove(jgWeapon1());
-                players.getInventory().remove(jgWeapon2());
-            }
-        }
     }
 
     private FileConfiguration config = null;

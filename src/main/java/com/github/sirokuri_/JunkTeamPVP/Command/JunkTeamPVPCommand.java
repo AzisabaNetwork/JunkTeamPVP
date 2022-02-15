@@ -100,7 +100,6 @@ public class JunkTeamPVPCommand implements CommandExecutor {
                             Location location = new Location(world, x, y, z);
                             location.setPitch(pitch);
                             location.setYaw(yaw);
-                            player.performCommand("heal");
                             player.teleport(location);
                         }else{
                             player.sendMessage(ChatColor.RED + "あなたはこのチームではありません");
@@ -126,7 +125,6 @@ public class JunkTeamPVPCommand implements CommandExecutor {
                             Location location = new Location(world, x, y, z);
                             location.setPitch(pitch);
                             location.setYaw(yaw);
-                            player.performCommand("heal");
                             player.teleport(location);
                         }else{
                             player.sendMessage(ChatColor.RED + "あなたはこのチームではありません");
