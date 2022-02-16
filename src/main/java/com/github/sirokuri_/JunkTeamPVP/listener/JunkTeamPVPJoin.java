@@ -27,6 +27,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class JunkTeamPVPJoin implements Listener {
 
     public final JunkTeamPVP plugin;
+    String hoverText1 = "チームPVPロビーへ戻る場合はこの文字をクリック!!";
+    BaseComponent[] hover1 = new ComponentBuilder(ChatColor.GREEN+ hoverText1).create();
+    HoverEvent hoverEvent1 = new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover1);
+    String command1 = "/jtPVP warp lobbySpawn";
+    ClickEvent clickEvent1 = new ClickEvent(ClickEvent.Action.RUN_COMMAND,command1);
+    BaseComponent[] message1 = new ComponentBuilder(ChatColor.UNDERLINE + hoverText1).event(hoverEvent1).event(clickEvent1).create();
+
+    String hoverText2 = "他のゲームを遊びたい場合はこの文字をクリック!!";
+    BaseComponent[] hover2 = new ComponentBuilder(ChatColor.GREEN + hoverText2).create();
+    HoverEvent hoverEvent2 = new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover2);
+    String command2 = "/jgselector";
+    ClickEvent clickEvent2 = new ClickEvent(ClickEvent.Action.RUN_COMMAND,command2);
+    BaseComponent[] message2 = new ComponentBuilder(ChatColor.UNDERLINE + hoverText2).event(hoverEvent2).event(clickEvent2).create();
 
     public JunkTeamPVPJoin(JunkTeamPVP junkTeamPVP){
         this.plugin = junkTeamPVP;
@@ -62,9 +75,7 @@ public class JunkTeamPVPJoin implements Listener {
                 player.getInventory().addItem(plugin.jgWeapon1());
                 player.getInventory().addItem(plugin.jgWeapon2());
                 player.sendMessage(ChatColor.RED + "赤チームに参加しました");
-                if (plugin.redTeam.size() + plugin.blueTeam.size() == matchPlayers) {
-                    startTimer();
-                }
+
             } else {
                 plugin.blueTeam.add(player);
                 ItemStack[] armor = new ItemStack [4];
@@ -77,6 +88,9 @@ public class JunkTeamPVPJoin implements Listener {
                 player.getInventory().addItem(plugin.jgWeapon1());
                 player.getInventory().addItem(plugin.jgWeapon2());
                 player.sendMessage(ChatColor.BLUE + "青チームに参加しました");
+            }
+            if (plugin.redTeam.size() + plugin.blueTeam.size() == matchPlayers) {
+                startTimer();
             }
         } else if(plugin.redTeam.contains(player) || plugin.blueTeam.contains(player)){
             player.sendMessage(ChatColor.RED + "既にあなたはチームへ参加しています！");
@@ -131,19 +145,6 @@ public class JunkTeamPVPJoin implements Listener {
                                 players.sendTitle("" + ChatColor.RED + plugin.redTeamCount + ChatColor.DARK_PURPLE + " : " + ChatColor.BLUE + plugin.blueTeamCount,ChatColor.DARK_PURPLE + "引き分けになりました",10,70,20);
                             }
                             if (players.getWorld().getName().equals(worldName)){
-                                String hoverText1 = "チームPVPロビーへ戻る場合はこの文字をクリック!!";
-                                BaseComponent[] hover1 = new ComponentBuilder(ChatColor.GREEN+ hoverText1).create();
-                                HoverEvent hoverEvent1 = new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover1);
-                                String command1 = "/jtPVP warp lobbySpawn";
-                                ClickEvent clickEvent1 = new ClickEvent(ClickEvent.Action.RUN_COMMAND,command1);
-                                BaseComponent[] message1 = new ComponentBuilder(ChatColor.UNDERLINE + hoverText1).event(hoverEvent1).event(clickEvent1).create();
-
-                                String hoverText2 = "他のゲームを遊びたい場合はこの文字をクリック!!";
-                                BaseComponent[] hover2 = new ComponentBuilder(ChatColor.GREEN + hoverText2).create();
-                                HoverEvent hoverEvent2 = new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover2);
-                                String command2 = "/jgselector";
-                                ClickEvent clickEvent2 = new ClickEvent(ClickEvent.Action.RUN_COMMAND,command2);
-                                BaseComponent[] message2 = new ComponentBuilder(ChatColor.UNDERLINE + hoverText2).event(hoverEvent2).event(clickEvent2).create();
                                 players.sendMessage(ChatColor.GREEN + "[JunkTeamPVP] メニュー");
                                 players.sendMessage("");
                                 players.spigot().sendMessage(message1);
