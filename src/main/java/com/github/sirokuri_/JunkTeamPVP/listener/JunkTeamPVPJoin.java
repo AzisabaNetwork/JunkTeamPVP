@@ -73,7 +73,6 @@ public class JunkTeamPVPJoin implements Listener {
                 player.getInventory().setArmorContents(armor);
                 player.getInventory().setItemInMainHand(plugin.jgRedWeapon());
                 player.getInventory().addItem(plugin.jgWeapon1());
-                player.getInventory().addItem(plugin.jgWeapon2());
                 player.sendMessage(ChatColor.RED + "赤チームに参加しました");
 
             } else {
@@ -85,7 +84,6 @@ public class JunkTeamPVPJoin implements Listener {
                 armor[3] = plugin.blueTeamHelmet();
                 player.getInventory().setArmorContents(armor);
                 player.getInventory().setItemInMainHand(plugin.jgBlueWeapon());
-                player.getInventory().addItem(plugin.jgWeapon1());
                 player.getInventory().addItem(plugin.jgWeapon2());
                 player.sendMessage(ChatColor.BLUE + "青チームに参加しました");
             }

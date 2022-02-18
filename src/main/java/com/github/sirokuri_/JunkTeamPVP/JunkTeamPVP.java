@@ -160,7 +160,20 @@ public class JunkTeamPVP extends JavaPlugin {
         jgWeapon.addEnchantment(Enchantment.DURABILITY,1);
         ItemMeta itemMeta = jgWeapon.getItemMeta();
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemMeta.setDisplayName(ChatColor.DARK_PURPLE + "チーム戦用の弓");
+        itemMeta.setDisplayName(ChatColor.DARK_PURPLE + "赤チーム用の弓");
+        itemMeta.setCustomModelData(1);
+        itemMeta.setUnbreakable(true);
+        jgWeapon.setItemMeta(itemMeta);
+        return jgWeapon;
+    }
+
+    public ItemStack jgWeapon2(){
+        ItemStack jgWeapon = new ItemStack (Material.BOW);
+        jgWeapon.addEnchantment(Enchantment.DURABILITY,1);
+        ItemMeta itemMeta = jgWeapon.getItemMeta();
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.setDisplayName(ChatColor.DARK_PURPLE + "青チーム用の弓");
+        itemMeta.setCustomModelData(2);
         itemMeta.setUnbreakable(true);
         jgWeapon.setItemMeta(itemMeta);
         return jgWeapon;

@@ -1,15 +1,15 @@
 package com.github.sirokuri_.JunkTeamPVP.listener;
 
 import com.github.sirokuri_.JunkTeamPVP.JunkTeamPVP;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -20,7 +20,6 @@ public class JunkTeamPVPGuard implements Listener {
         this.plugin = junkTeamPVP;
     }
 
-    @SuppressWarnings("SuspiciousMethodCalls")
     @EventHandler
     public void onTeamPVP(EntityDamageByEntityEvent event){
         Entity entity = event.getEntity();
@@ -37,6 +36,7 @@ public class JunkTeamPVPGuard implements Listener {
         if (plugin.blueTeam.contains(entity) && plugin.redTeam.contains(((Projectile) damage).getShooter())) return;
         if (plugin.redTeam.contains(entity) && plugin.blueTeam.contains(((Projectile) damage).getShooter())) return;
         event.setCancelled(true);
+
     }
 
     @EventHandler
@@ -56,6 +56,16 @@ public class JunkTeamPVPGuard implements Listener {
         }else {
             plugin.blueTeam.remove(player);
             plugin.redTeam.remove(player);
+        }
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event){
+        Player player = event.getEntity();
+        if (plugin.redTeam.contains(player)){
+            Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] " + ChatColor.RED + "赤チームの " + player.getName() + ChatColor.WHITE + "は倒された");
+        }else if (plugin.blueTeam.contains(player)){
+            Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] " + ChatColor.BLUE + "青チームの " + player.getName() + ChatColor.WHITE + "は倒された");
         }
     }
 }
