@@ -143,6 +143,7 @@ public class JunkTeamPVPJoin implements Listener {
                                 players.sendTitle("" + ChatColor.RED + plugin.redTeamCount + ChatColor.DARK_PURPLE + " : " + ChatColor.BLUE + plugin.blueTeamCount,ChatColor.DARK_PURPLE + "引き分けになりました",10,70,20);
                             }
                             if (players.getWorld().getName().equals(worldName)){
+                                players.sendMessage(ChatColor.GREEN + "今はまだ勝利報酬はありませんが\nそのうち実装します\n\n");
                                 players.sendMessage(ChatColor.GREEN + "[JunkTeamPVP] メニュー");
                                 players.sendMessage("");
                                 players.spigot().sendMessage(message1);
