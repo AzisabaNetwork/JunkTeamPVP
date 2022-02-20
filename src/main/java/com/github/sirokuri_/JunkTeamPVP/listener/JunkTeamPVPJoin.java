@@ -65,24 +65,20 @@ public class JunkTeamPVPJoin implements Listener {
             plugin.onlinePlayers.add(player);
             if (plugin.onlinePlayers.size() % 2 == 0) {
                 plugin.redTeam.add(player);
-                ItemStack[] armor = new ItemStack [4];
-                armor[0] = plugin.redTeamBoots();
-                armor[1] = plugin.redTeamLeggings();
-                armor[2] = plugin.redTeamChestPlate();
-                armor[3] = plugin.redTeamHelmet();
-                player.getInventory().setArmorContents(armor);
+                player.getInventory().setHelmet(plugin.redTeamHelmet());
+                player.getInventory().setChestplate(plugin.redTeamChestPlate());
+                player.getInventory().setLeggings(plugin.redTeamLeggings());
+                player.getInventory().setBoots(plugin.redTeamBoots());
                 player.getInventory().setItemInMainHand(plugin.jgRedWeapon());
                 player.getInventory().addItem(plugin.jgWeapon1());
                 player.sendMessage(ChatColor.RED + "赤チームに参加しました");
 
             } else {
                 plugin.blueTeam.add(player);
-                ItemStack[] armor = new ItemStack [4];
-                armor[0] = plugin.blueTeamBoots();
-                armor[1] = plugin.blueTeamLeggings();
-                armor[2] = plugin.blueTeamChestPlate();
-                armor[3] = plugin.blueTeamHelmet();
-                player.getInventory().setArmorContents(armor);
+                player.getInventory().setHelmet(plugin.blueTeamHelmet());
+                player.getInventory().setChestplate(plugin.blueTeamChestPlate());
+                player.getInventory().setLeggings(plugin.blueTeamLeggings());
+                player.getInventory().setBoots(plugin.blueTeamBoots());
                 player.getInventory().setItemInMainHand(plugin.jgBlueWeapon());
                 player.getInventory().addItem(plugin.jgWeapon2());
                 player.sendMessage(ChatColor.BLUE + "青チームに参加しました");

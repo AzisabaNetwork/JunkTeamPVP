@@ -20,23 +20,20 @@ public class JunkTeamPVPGuard implements Listener {
         this.plugin = junkTeamPVP;
     }
 
+    @SuppressWarnings("SuspiciousMethodCalls")
     @EventHandler
     public void onTeamPVP(EntityDamageByEntityEvent event){
         Entity entity = event.getEntity();
         Entity damage = event.getDamager();
         if (!(damage instanceof Player || damage instanceof Arrow)) return;
-        //ダメージを与えたエンティティがプレイヤー以外なら処理を行わなずreturnする
         String worldName = plugin.config().getString("worldName");
         if (worldName == null || worldName.equals("Default")) return;
         World world1 = entity.getWorld();
         World world2 = damage.getWorld();
         if (!world1.getName().equals(worldName) && !world2.getName().equals(worldName)) return;
-        if (plugin.blueTeam.contains(entity) && plugin.redTeam.contains(damage)) return;
-        if (plugin.redTeam.contains(entity) && plugin.blueTeam.contains(damage)) return;
-        if (plugin.blueTeam.contains(entity) && plugin.redTeam.contains(((Projectile) damage).getShooter())) return;
-        if (plugin.redTeam.contains(entity) && plugin.blueTeam.contains(((Projectile) damage).getShooter())) return;
+        if (plugin.blueTeam.contains(entity) && plugin.redTeam.contains(damage) || plugin.redTeam.contains(entity) && plugin.blueTeam.contains(damage)) return;
+        if (plugin.blueTeam.contains(entity) && plugin.redTeam.contains(((Projectile) damage).getShooter()) || plugin.redTeam.contains(entity) && plugin.blueTeam.contains(((Projectile) damage).getShooter())) return;
         event.setCancelled(true);
-
     }
 
     @EventHandler
@@ -62,10 +59,18 @@ public class JunkTeamPVPGuard implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent event){
         Player player = event.getEntity();
-        if (plugin.redTeam.contains(player)){
-            Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] " + ChatColor.RED + "赤チームの " + player.getName() + ChatColor.WHITE + "は倒された");
-        }else if (plugin.blueTeam.contains(player)){
-            Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] " + ChatColor.BLUE + "青チームの " + player.getName() + ChatColor.WHITE + "は倒された");
+        String worldName = plugin.config().getString("worldName");
+        if (worldName == null || worldName.equals("Default")) return;
+        for (Player players : Bukkit.getServer().getOnlinePlayers()) {
+            if (player.getWorld().getName().contains(worldName)) {
+                if (plugin.redTeam.contains(player)){
+                    players.sendMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] " + ChatColor.RED + "赤チームの " + player.getName() + ChatColor.WHITE + "は倒された");
+                }else if (plugin.blueTeam.contains(player)){
+                    players.sendMessage(ChatColor.DARK_PURPLE + "[JunkTeamPVP] " + ChatColor.BLUE + "青チームの " + player.getName() + ChatColor.WHITE + "は倒された");
+                }
+
+            }
         }
+        player.performCommand("jtPVP warp lobbySpawn");
     }
 }
