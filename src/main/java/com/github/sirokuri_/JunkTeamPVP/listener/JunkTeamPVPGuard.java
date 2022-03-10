@@ -14,13 +14,13 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class JunkTeamPVPGuard implements Listener {
+
     private final JunkTeamPVP plugin;
 
     public JunkTeamPVPGuard(JunkTeamPVP junkTeamPVP){
         this.plugin = junkTeamPVP;
     }
 
-    @SuppressWarnings("SuspiciousMethodCalls")
     @EventHandler
     public void onTeamPVP(EntityDamageByEntityEvent event){
         Entity entity = event.getEntity();
@@ -31,9 +31,9 @@ public class JunkTeamPVPGuard implements Listener {
         World world1 = entity.getWorld();
         World world2 = damage.getWorld();
         if (!world1.getName().equals(worldName) && !world2.getName().equals(worldName)) return;
-        if (plugin.blueTeam.contains(entity) && plugin.redTeam.contains(damage) || plugin.redTeam.contains(entity) && plugin.blueTeam.contains(damage)) return;
-        if (plugin.blueTeam.contains(entity) && plugin.redTeam.contains(((Projectile) damage).getShooter()) || plugin.redTeam.contains(entity) && plugin.blueTeam.contains(((Projectile) damage).getShooter())) return;
-        event.setCancelled(true);
+        if (plugin.blueTeam.contains(entity) && plugin.blueTeam.contains(damage) || plugin.redTeam.contains(entity) && plugin.redTeam.contains(damage)) event.setCancelled(true);
+        if (plugin.blueTeam.contains(entity) && plugin.blueTeam.contains(((Projectile) damage).getShooter()) || plugin.redTeam.contains(entity) && plugin.redTeam.contains(((Projectile) damage).getShooter())) event.setCancelled(true);
+        if (!(plugin.onlinePlayers.contains(entity))) event.setCancelled(true);
     }
 
     @EventHandler
