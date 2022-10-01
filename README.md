@@ -1,2 +1,2 @@
 # JunkTeamPVP
-JG | junkgames用のTeamPVP予定
+PVP plugin for junkGames server in Azisaba Network
